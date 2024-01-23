@@ -1,0 +1,71 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import rospy
+from geometry_msgs.msg import Twist, Pose
+import math
+
+class TurtleController:
+    def __init__(self):
+        # Todo 1: ROS node initialize
+        rospy.init_node('turtle_controller', anonymous=True)
+        # create a Publisher, queue size is 10
+        # Todo 2: finish the code below
+        self.turtle_vel_pub = rospy.Publisher('turtle1/cmd_vel', Twist, queue_size=10)
+        # create a Subscriber for getting the current turtle pose
+        self.pose_sub = rospy.Subscriber('turtle1/pose', Pose, self.pose_callback)
+        # set loop rate
+        self.rate = rospy.Rate(10)
+        # current turtle pose
+        self.current_pose = Pose()
+
+    def pose_callback(self, pose):
+        # Callback to update the current turtle pose
+        self.current_pose = pose
+
+    def move_to_position(self, target_x, target_y):
+        # Todo 3: Move to a specific position
+        while not rospy.is_shutdown():
+            # calculate the distance to the target position
+            distance = math.sqrt((target_x - self.current_pose.x)**2 + (target_y - self.current_pose.y)**2)
+            
+            if distance < 0.1:  # stop when close to the target position
+                break
+
+            # calculate the heading angle to the target position
+            angle_to_target = math.atan2(target_y - self.current_pose.y, target_x - self.current_pose.x)
+            
+            # calculate the linear velocity
+            linear_velocity = min(distance, 1.0)  # limit the linear velocity for smooth motion
+            
+            # calculate the angular velocity
+            angular_velocity = 2.0 * (angle_to_target - self.current_pose.theta)
+
+            # create Twist message with linear and angular velocities
+            vel_msg = Twist()
+            vel_msg.linear.x = linear_velocity
+            vel_msg.angular.z = angular_velocity
+
+            # publish velocity command
+            self.turtle_vel_pub.publish(vel_msg)
+
+            # print information to the terminal
+            rospy.loginfo("Target Position: (%0.2f, %0.2f), Current Position: (%0.2f, %0.2f), Distance: %0.2f",
+                          target_x, target_y, self.current_pose.x, self.current_pose.y, distance)
+
+            # delay as loop rate
+            self.rate.sleep()
+
+    def move_in_rectangle(self):
+        # Move in a rectangle by sequentially moving to each corner
+        self.move_to_position(2.0, 2.0)
+        self.move_to_position(2.0, -2.0)
+        self.move_to_position(-2.0, -2.0)
+        self.move_to_position(-2.0, 2.0)
+
+if __name__ == '__main__':
+    try:
+        turtle_controller = TurtleController()
+        turtle_controller.move_in_rectangle()
+    except rospy.ROSInterruptException:
+        pass
