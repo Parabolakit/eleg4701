@@ -1,0 +1,10 @@
+<launch>
+  <node name="turtlesim_name" pkg="turtlesim" type="turtlesim_node"/>
+  <!-- TODO 1: Start the keyboard teleoperation node -->
+
+  <node name="rosservicecall" pkg="rosservice" type="rosservice" args="call \spawn 4.0 4.0 0.0 ''"/>
+
+  <!-- TODO 2: Start the publisher and follower -->
+ 
+
+</launch>
