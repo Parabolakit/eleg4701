@@ -1,14 +1,10 @@
 <launch>
 
   <!-- TODO 2: Start the publisher and follower -->
-  <node name="server" pkg="beginner_tutorial" type="lab5_server.py" />
-  <node name="client" pkg="beginner_tutorial" type="lab5_client.py" >
-    <rosparam>
-      arg1: 2
-      arg2: 4
-    </rosparam>
-    <param name="arg1" value="(arg arg1)"/>
-    <param name="arg2" value="(arg arg2)"/>
+  <node name="server" pkg="beginner_tutorial" type="lab5_server.py" output="screen"/>
+  <node name="client" pkg="beginner_tutorial" type="lab5_client.py" output="screen">
+    <param name="x" value="2"/>
+    <param name="y" value="4"/> 
   </node>
 </launch>
 
