@@ -7,7 +7,7 @@ from beginner_tutorial.srv import beginner_srv, beginner_srvResponse
 
 def handle_multiplication(req):
     # TODO 2: figure out what should be returned and modify the printed message
-    print("Returning [%s + %s = %s]"%(req.a, req.b, (req.a + req.b)))
+    # print("Returning [%s + %s = %s]"%(req.a, req.b, (req.a + req.b)))
     print("Returning [%s x %s = %s]"%(req.a, req.b, (req.a *req.b)))
     return beginner_srvResponse(req.a *req.b)
 

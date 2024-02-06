@@ -24,11 +24,10 @@ def usage():
 
 if __name__ == "__main__":
     if len(sys.argv) >= 3:
-        x = int(sys.argv[1])
-        y = int(sys.argv[2])
+        x = float(sys.argv[1])
+        y = float(sys.argv[2])
     else:
         rospy.loginfo(usage())
         sys.exit(1)
-    print("Requesting %s + %s"%(x, y))
-    print("%s + %s = %s"%(x, y, multiplication_client(x, y)))
-
+    print("Requesting %s x %s"%(x, y))
+    print("%s x %s = %s"%(x, y, multiplication_client(x, y)))

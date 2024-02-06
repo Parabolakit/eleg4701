@@ -2,36 +2,6 @@
 
   <!-- TODO 2: Start the publisher and follower -->
   <node name="server" pkg="beginner_tutorial" type="lab5_server.py" output="screen"/>
-  <node name="client" pkg="beginner_tutorial" type="lab5_client.py" output="screen">
-    <param name="x" value="2"/>
-    <param name="y" value="4"/> 
-  </node>
+  <node name="client" pkg="beginner_tutorial" type="lab5_client.py" args='$(arg a) $(arg b)' output="screen"/>
+ 
 </launch>
-
-SUMMARY
-========
-
-PARAMETERS
- * /client/arg1: (arg arg1)
- * /client/arg2: (arg arg2)
- * /rosdistro: noetic
- * /rosversion: 1.16.0
-
-NODES
-  /
-    client (beginner_tutorial/lab5_client.py)
-    server (beginner_tutorial/lab5_server.py)
-
-ROS_MASTER_URI=http://localhost:11311
-
-process[server-1]: started with pid [5851]
-process[client-2]: started with pid [5852]
-Traceback (most recent call last):
-  File "/home/kit/catkin_ws/devel/lib/beginner_tutorial/lab5_client.py", line 15, in <module>
-    exec(compile(fh.read(), python_script, 'exec'), context)
-  File "/home/kit/catkin_ws/src/beginner_tutorial/scripts/lab5_client.py", line 27, in <module>
-    x = int(sys.argv[1])
-ValueError: invalid literal for int() with base 10: '__name:=client'
-[client-2] process has died [pid 5852, exit code 1, cmd /home/kit/catkin_ws/devel/lib/beginner_tutorial/lab5_client.py __name:=client __log:=/home/kit/.ros/log/3708558a-c4c2-11ee-b743-8b2eeaa6a923/client-2.log].
-log file: /home/kit/.ros/log/3708558a-c4c2-11ee-b743-8b2eeaa6a923/client-2*.log
-
