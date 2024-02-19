@@ -32,7 +32,8 @@ echo "source ~/catkin_ws/devel/setup.bash" >> ~/.bashrc
 ==================================
 # Check env config
 
-echo $ROS_PACKAGE_PATH
+echo $ROS_PACKAGE_PATH 
+#/opt/ros/noetic/share
 
 env | grep TURTLEBOT3
 

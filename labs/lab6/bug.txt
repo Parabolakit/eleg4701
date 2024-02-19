@@ -1,0 +1,17 @@
+bash: /home/chi/catkin_ws/devel/setup.bash: No such file or directory
+
+Command '“export' not found, did you mean:
+
+  command 'mexport' from deb mblaze (0.6-1)
+
+Try: sudo apt install <deb name>
+
+“source: command not found
+
+Command '“export' not found, did you mean:
+
+  command 'mexport' from deb mblaze (0.6-1)
+
+Try: sudo apt install <deb name>
+
+“source: command not found
