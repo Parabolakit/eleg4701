@@ -1,0 +1,7 @@
+<launch>
+
+  <!-- TODO 2: Start the publisher and follower -->
+  <node name="server" pkg="beginner_tutorial" type="lab5_server.py" output="screen"/>
+  <node name="client" pkg="beginner_tutorial" type="lab5_client.py" args='$(arg a) $(arg b)' output="screen"/>
+ 
+</launch>
