@@ -1,4 +1,39 @@
+To setup a new workspace:
+Edit bashrc file to automatically source when open a terminal
+sudo nano ~/.bashrc
+# Add to bashrc
+source /opt/ros/noetic/setup.bash
+source ~/Desktop/eleg4701/catkin_ws/devel/setup.bash
+export TURTLEBOT3_MODEL=burger
+source ~/Desktop/eleg4701/catkin_ws/devel/setup.bash
+# or use command line to append the line to bashrc
+echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
+echo "source ~/Desktop/eleg4701/catkin_ws/devel/setup.bash" >> ~/.bashrc
+echo "export TURTLEBOT3_MODEL=burger" >> ~/.bashrc
+echo "source ~/Desktop/eleg4701/catkin_ws/devel/setup.bash" >> ~/.bashrc
+# to make it effect on current terminal 
+source ~/.bashrc
+
+# Record them for convenience
 catkin_make
 source devel/setup.bash
 
 roslaunch turtlebot3_gazebo turtlebot3_world.launch
+roslaunch turtlebot3_teleop turtlebot3_teleop_key.launch
+
+roslaunch turtlebot3_slam turtlebot3_slam.launch slam_methods:=gmapping
+
+# to save the map
+rosrun map_server map_saver -f ~/my_map
+
+# navigation for known map
+roslaunch turtlebot3_gazebo turtlebot3_world.launch
+roslaunch turtlebot3_navigation turtlebot3_navigation.launch map_file:=$HOME/my_map.yaml
+
+# change navigation parameter
+rosrun rqt_reconfigure rqt_reconfigure
+
+
+
+
+
