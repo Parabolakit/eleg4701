@@ -1,0 +1,17 @@
+roscd lab7
+rosbag play lab7_image.bag
+
+rosrun rqt_image_view rqt_image_view
+cd ~/catkin_ws/src/lab7/scripts
+chmod +x task_II.py
+
+roscore
+cd ~/catkin_ws
+source devel/setup.bash
+rosrun lab7 task_II.py
+
+source devel/setup.bash
+roslaunch lab7 task_II.launch
+
+rosrun lab7 task_II.py
+roslaunch lab7 task_II.py
