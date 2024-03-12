@@ -309,10 +309,13 @@ if __name__ == '__main__':
     enter_srv = rospy.Service('/object_tracking/enter', Trigger, enter_func)
     exit_srv = rospy.Service('/object_tracking/exit', Trigger, exit_func)
     # TODO: init the running service
+    set_running_srv = rospy.Service('/object_tracking/set_running', SetParam, set_running)
 
     set_target_srv = rospy.Service('/object_tracking/set_target', SetTarget, set_target)
     heartbeat_srv = rospy.Service('/object_tracking/heartbeat', SetBool, heartbeat_srv_cb)
     # TODO: init the chassis control publisher
+    set_translation = rospy.Publisher('/chassis_control/set_translation', SetTranslation, queue_size=1)
+    set_velocity = rospy.Publisher('/chassis_control/set_velocity', SetVelocity, queue_size=1)
     
     # buzzer control
     buzzer_pub = rospy.Publisher('/sensor/buzzer', Float32, queue_size=1)
