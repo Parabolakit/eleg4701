@@ -132,9 +132,7 @@ def color_detect(img, color):
 
     if color in color_range_list:
         # TODO:define the frame_mask for the color (set the pixel inrange to 255 others to 0)
-        lower_range = np.array(color_range_list[color][0])
-        upper_range = np.array(color_range_list[color][1])
-        frame_mask = cv2.inRange(frame_lab, lower_range, upper_range)
+        frame_mask = cv2.inRange(frame_lab, tuple(color_range['min']), tuple(color_range['max']))
 
         eroded = cv2.erode(frame_mask, cv2.getStructuringElement(cv2.MORPH_RECT, (2, 2)))          # erosion
         dilated = cv2.dilate(eroded, cv2.getStructuringElement(cv2.MORPH_RECT, (2, 2)))            # dilation

@@ -103,7 +103,7 @@ def run(msg):
     global lock
     global move
     global arm_x, arm_y
-    
+    rospy.loginfo("Processing image")
     center_x = msg.center_x
     center_y = msg.center_y
     radius = msg.data
@@ -125,9 +125,6 @@ def run(msg):
                     arm_x = 200
                 elif arm_x > 800:
                     arm_x = 800
-
-                
-                
                 
                 # TODO:robot arm y axis tracking
                 if abs(center_y - img_h/2.0) < 15:
@@ -267,7 +264,7 @@ def set_target(msg):
     global lock
     global target_color
     
-    rospy.loginfo("%s", msg)
+    rospy.loginfo("The message is: %s", msg)
     with lock:
         target_color = msg.data
         led = Led()
@@ -282,7 +279,7 @@ def set_target(msg):
         visual_running = rospy.ServiceProxy('/visual_processing/set_running', SetParam)
         visual_running('color',target_color)
         rospy.sleep(0.1)
-        
+    rospy.loginfo("Done set target")
     return [True, 'set_target']
 
 # heartbeat service callback
@@ -303,16 +300,18 @@ def heartbeat_srv_cb(msg):
 if __name__ == '__main__':
     # init node
     rospy.init_node('object_tracking', log_level=rospy.DEBUG)
+    rospy.loginfo("Finished initializing the node")
     # publish servo
     joints_pub = rospy.Publisher('/servo_controllers/port_id_1/multi_id_pos_dur', MultiRawIdPosDur, queue_size=1)
+    rospy.loginfo("Done published servo")
     # app communication
     enter_srv = rospy.Service('/object_tracking/enter', Trigger, enter_func)
     exit_srv = rospy.Service('/object_tracking/exit', Trigger, exit_func)
     # TODO: init the running service
     set_running_srv = rospy.Service('/object_tracking/set_running', SetParam, set_running)
-
     set_target_srv = rospy.Service('/object_tracking/set_target', SetTarget, set_target)
     heartbeat_srv = rospy.Service('/object_tracking/heartbeat', SetBool, heartbeat_srv_cb)
+    
     # TODO: init the chassis control publisher
     set_translation = rospy.Publisher('/chassis_control/set_translation', SetTranslation, queue_size=1)
     set_velocity = rospy.Publisher('/chassis_control/set_velocity', SetVelocity, queue_size=1)
