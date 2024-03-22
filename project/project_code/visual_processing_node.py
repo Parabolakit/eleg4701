@@ -131,6 +131,10 @@ def color_detect(img, color):
 
     if color in color_range_list:
         # TODO:define the frame_mask for the color (set the pixel inrange to 255 others to 0)
+<<<<<<< HEAD
+=======
+        frame_mask = cv2.inRange(frame_lab, tuple(color_range['min']), tuple(color_range['max']))
+>>>>>>> 3dac7145634c78525a96bb74c2fbec2d9af7ed03
 
         eroded = cv2.erode(frame_mask, cv2.getStructuringElement(cv2.MORPH_RECT, (2, 2)))          # erosion
         dilated = cv2.dilate(eroded, cv2.getStructuringElement(cv2.MORPH_RECT, (2, 2)))            # dilation
