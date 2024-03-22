@@ -72,12 +72,14 @@ def apriltag_Detect(img):
             corners = np.rint(detection.corners)  # get four corners
 
             # TODO: map the four corners from the size_m to image size
-            frame_mask = cv2.inRange(frame_lab, tuple(color_range['min']), tuple(color_range['max']))
+            corners[:, 0] = corners[:, 0] * (img_w / size_m[0])
+            corners[:, 1] = corners[:, 1] * (img_h / size_m[1])
 
             # TODO: get the center point (object_center_x, object_center_y, in image size)
             # Hint: use detection.center
-            eroded = cv2.erode(frame_mask, cv2.getStructuringElement(cv2.MORPH_RECT, (2, 2)))
-            dilated = cv2.dilate(eroded, cv2.getStructuringElement(cv2.MORPH_RECT, (2,2)))
+            object_center_x = int(np.mean(corners[:, 0]))
+            object_center_y = int(np.mean(corners[:, 1]))
+            
 
             object_angle = int(math.degrees(math.atan2(corners[0][1] - corners[1][1], corners[0][0] - corners[1][0])))  # rotation angle
             if id_smallest == 'None' or tag_id <= id_smallest:
@@ -131,10 +133,7 @@ def color_detect(img, color):
 
     if color in color_range_list:
         # TODO:define the frame_mask for the color (set the pixel inrange to 255 others to 0)
-<<<<<<< HEAD
-=======
         frame_mask = cv2.inRange(frame_lab, tuple(color_range['min']), tuple(color_range['max']))
->>>>>>> 3dac7145634c78525a96bb74c2fbec2d9af7ed03
 
         eroded = cv2.erode(frame_mask, cv2.getStructuringElement(cv2.MORPH_RECT, (2, 2)))          # erosion
         dilated = cv2.dilate(eroded, cv2.getStructuringElement(cv2.MORPH_RECT, (2, 2)))            # dilation
@@ -145,6 +144,11 @@ def color_detect(img, color):
             
             # TODO: find the smallest incircle center x, center y, radius from area_max_contour
             # Hint: cv2.minEnclosingCircle
+            (centerx, centery), radius = cv2.minEnclosingCircle(area_max_contour)
+            msg.center_x = int(Misc.map(centerx, 0, size_m[0], 0, img_w))
+            msg.center_y = int(Misc.map(centery, 0, size_m[1], 0, img_h))
+            msg.data = int(Misc.map(radius, 0, size_m[0], 0, img_w))
+            cv2.circle(img, (msg.center_x, msg.center_y), msg.data+5, range_rgb[color], 2)
 
             publish_en = True
         
@@ -269,6 +273,7 @@ if __name__ == '__main__':
     # communication
     image_pub = rospy.Publisher('/visual_processing/image_result', Image, queue_size=1)
     # TODO: init the result_pub for publish the result
+    result_pub = rospy.Publisher('/visual_processing/result', Result, queue_size=1)
     
     enter_srv = rospy.Service('/visual_processing/enter', Trigger, enter_func)
     exit_srv = rospy.Service('/visual_processing/exit', Trigger, exit_func)
